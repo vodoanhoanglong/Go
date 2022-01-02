@@ -5,7 +5,7 @@ import "fmt"
 func generatePipeline(numbers []int) <-chan int {
 	out := make(chan int)
 	go func() {
-		for _, n := range numbers {
+		for _, n := range numbers { // arr normal
 			out <- n
 		}
 		close(out)
@@ -16,7 +16,7 @@ func generatePipeline(numbers []int) <-chan int {
 func fanOut(in <-chan int) <-chan int {
 	out := make(chan int)
 	go func() {
-		for n := range in {
+		for n := range in { // channel
 			out <- n * n
 		}
 		close(out)
@@ -27,7 +27,7 @@ func fanOut(in <-chan int) <-chan int {
 func fanIn(inputChannel ...<-chan int) <-chan int {
 	in := make(chan int)
 	go func() {
-		for _, c := range inputChannel {
+		for _, c := range inputChannel { // Special: arr channel
 			for n := range c {
 				in <- n
 			}
